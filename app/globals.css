@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  /* type */
+  --font-display: var(--font-rozha), Georgia, serif;
+  --font-body: var(--font-work), system-ui, sans-serif;
+  --font-mono: var(--font-jbmono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* palette — pulled from the paan-shop night scene: sodium-lamp amber,
+     deep indigo sky, moonlight cream, signage rust */
+  --color-night: #0b0f1a;
+  --color-night-2: #121a2c;
+  --color-moon: #f3ead2;
+  --color-amber: #e8a33d;
+  --color-amber-2: #c97f2a;
+  --color-rust: #9a3324;
+  --color-paper: #f6ecd9;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.hero-bg {
+  background-image: url("/bg/scene-wide.png");
+}
+
+@media (orientation: portrait) {
+  .hero-bg {
+    background-image: url("/bg/scene-tall.png");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--color-night);
+  color: var(--color-paper);
+}
+
+/* keep focus visible everywhere, including inside the glass player */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
