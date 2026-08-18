@@ -1,88 +1,256 @@
-# Tapri Radio
+# Retro Raag 📻
 
-A single-page nostalgia radio player, styled after a roadside tapri (paan
-shop) on a moonlit night — built with Next.js App Router, TypeScript, and
-Tailwind CSS v4.
+> A little radio station for old songs, late nights and nostalgic moods.
 
-## Run it
+**Retro Raag** is a single-page nostalgia radio experience inspired by the feeling of sitting at a roadside tapri on a quiet Indian evening, with an old film song playing in the background.
+
+🎧 **[Listen to Retro Raag](https://laraib1902.github.io/Retro-Raag/)**
+
+The project combines a cinematic visual atmosphere with a simple radio player, curated playlists and responsive layouts that feel at home on both desktop and mobile.
+
+---
+
+## ✨ Features
+
+* 🎵 Curated playlists of classic Hindi film songs
+* 📻 Real YouTube playback through the YouTube IFrame Player API
+* ▶️ Autoplay with muted playback to respect browser autoplay policies
+* 🔊 Automatically unmutes after the visitor's first interaction
+* ⏮️ Previous, play/pause and next controls
+* 🎚️ Interactive seek/progress bar
+* 📱 Dedicated desktop and mobile player layouts
+* 🎨 Cinematic tapri-inspired visual design
+* 🌙 Film-grain overlay and atmospheric background
+* 🕐 Live clock display
+* 👥 Atmospheric listener count
+* 📊 Vercel Analytics and Speed Insights
+* ⚡ Static export suitable for simple hosting and GitHub Pages
+
+---
+
+## 🎶 Playlists
+
+Retro Raag currently includes three moods:
+
+| Playlist              | Mood                                     |
+| --------------------- | ---------------------------------------- |
+| **Tapri, Late Night** | Songs for the last customer of the night |
+| **Moonlit Gully**     | For a walk under a full moon             |
+| **Boombox Mornings**  | The radio the shopkeeper opens with      |
+
+The songs and their metadata live in `lib/tracks.ts`, making it straightforward to add or remove tracks without touching the player itself.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Next.js 15** with App Router
+* **React 19**
+* **TypeScript**
+* **Tailwind CSS v4**
+* **YouTube IFrame Player API**
+* **Vercel Analytics**
+* **Vercel Speed Insights**
+
+The application uses Next.js static export, so the generated site can be hosted without a traditional Node.js server.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have Node.js and npm installed.
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/laraib1902/Retro-Raag.git
+cd Retro-Raag
+```
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open:
 
-## Before you ship this
+```text
+http://localhost:3000
+```
 
-**1. Background images**
-`public/bg/scene-wide.png` is the image you uploaded. `public/bg/scene-tall.png`
-is currently just a copy of the same file as a placeholder — you said this
-would be a separately composed portrait shot, so swap it out with the real
-one before deploying (it's what renders on phones in portrait orientation).
+### Production build
 
-**2. Tracks — all real now**
-Every track across all three playlists is real: 3 in "Tapri, Late Night," 2 in
-"Moonlit Gully," 5 in "Boombox Mornings" — all wired to videoIds from
-Shemaroo's official channel, sent by you one at a time in chat, with
-metadata (title/singer/film/year) verified against public song databases.
+Create a production build with:
 
-Per your instructions, no copyrighted songs were searched for or added on
-this project's own initiative — every id came from you. Adding another is
-still a one-line edit:
+```bash
+npm run build
+```
+
+Because the project uses Next.js static export, the generated output can be deployed to static hosting such as GitHub Pages.
+
+---
+
+## 📁 Project Structure
+
+```text
+Retro-Raag/
+├── app/
+│   ├── layout.tsx          # Global layout, fonts and metadata
+│   ├── page.tsx            # Main radio experience
+│   └── globals.css         # Global styles
+│
+├── components/
+│   ├── RadioPlayer.tsx      # Player state and YouTube integration
+│   ├── PlayerDesktop.tsx    # Desktop player UI
+│   ├── PlayerMobile.tsx     # Mobile player UI
+│   ├── PlaylistTabs.tsx     # Playlist navigation
+│   ├── Vinyl.tsx            # Record/vinyl visual
+│   ├── SeekBar.tsx          # Playback progress control
+│   └── Transport.tsx         # Playback controls
+│
+├── lib/
+│   ├── tracks.ts            # Playlists and track metadata
+│   └── youtube.ts           # YouTube API loader
+│
+├── public/
+│   └── bg/                  # Background artwork
+│
+├── next.config.ts           # Static export configuration
+├── package.json
+└── README.md
+```
+
+---
+
+## 🧠 How the Player Works
+
+The radio player is deliberately built around a **single YouTube player instance**.
+
+`RadioPlayer.tsx` owns the playback state and creates the YouTube player once. When the viewport changes between desktop and mobile, the existing player element is moved between the appropriate UI containers instead of destroying and recreating the player.
+
+This means switching between responsive layouts doesn't interrupt the current audio stream.
+
+Changing tracks also reuses the same YouTube player instance rather than creating a new iframe for every song.
+
+---
+
+## ➕ Adding a Track
+
+Tracks are defined in:
+
+```text
+lib/tracks.ts
+```
+
+A track follows this structure:
 
 ```ts
 {
-  id: "t1",
-  title: "Song title",
-  artist: "Artist",
-  film: "Film name",
-  year: 1978,
-  duration: 245, // seconds — fallback shown before the player reports the real duration
-  videoId: "dQw4w9WgXcQ", // the 11-char id from youtube.com/watch?v=XXXXXXXXXXX
-},
+  id: "new-track",
+  title: "Song Title",
+  artist: "Artist Name",
+  film: "Film Name",
+  year: 1975,
+  duration: 240,
+  videoId: "XXXXXXXXXXX",
+}
 ```
 
-**3. Vercel Analytics / Speed Insights**
-These render as no-ops locally and activate automatically once deployed to
-Vercel — no setup needed on your end.
+`duration` acts as a fallback until the YouTube player reports the actual duration.
 
-**4. Rights/takedown footer**
-There's now a small line under the player noting audio streams through
-YouTube's embedded player, nothing is hosted, rights stay with the original
-labels, and a `mailto:hello@example.com` link for takedown requests. Swap
-that address for your real one in `app/page.tsx`.
+`videoId` is the 11-character ID from a YouTube URL:
 
-**5. Autoplay**
-The station starts automatically on page load, muted (browsers block
-autoplay with sound otherwise). The instant the visitor clicks, taps, or
-presses any key anywhere on the page, it unmutes — that's standard practice
-for autoplaying media and needs no button. A small "tap anywhere to unmute"
-hint shows while it's muted and playing.
+```text
+https://www.youtube.com/watch?v=XXXXXXXXXXX
+                                      ^^^^^^^^^^^
+```
 
-## How it's built
+Only use videos that you have permission to embed or that are published by the appropriate rights holder.
 
-- `app/page.tsx` — server component: fixed background + grain, the fixed top
-  row (clock / listener count / social links), and the bottom-anchored player.
-- `components/RadioPlayer.tsx` — the only client-side "brain." Owns playback
-  state and a single real YouTube `iframe`, which it moves (via a plain
-  `appendChild`, not a remount) between the desktop pill and the mobile card
-  depending on viewport, so there's exactly one player and one audio stream
-  no matter which layout is visible.
-- `components/PlayerDesktop.tsx` / `PlayerMobile.tsx` — the two visual shells
-  described in the brief, each always in the DOM and toggled with
-  `hidden sm:flex` / `sm:hidden` so switching breakpoints never reflows one
-  layout into the other.
-- `components/Vinyl.tsx`, `SeekBar.tsx`, `Transport.tsx`, `PlaylistTabs.tsx` —
-  presentational pieces, all defined at module scope so their identity is
-  stable across renders (the vinyl's spin state would otherwise reset ~2–3×/second
-  from the progress-bar ticking).
-- `lib/tracks.ts` — the playlist data. `lib/youtube.ts` loads the YouTube
-  IFrame API once, no matter how many components ask for it.
+---
 
-## Known trade-offs
+## 📱 Responsive Design
 
-- Listener count is a client-side random walk for atmosphere, not a real
-  count of anyone.
-- The seek bar's drag range assumes the reported `duration`; until the player
-  fires `onReady` for a track, seeking is a no-op.
+Retro Raag has separate visual treatments for desktop and mobile rather than simply shrinking the desktop player.
+
+The two layouts remain available in the DOM while CSS controls which presentation is visible. The underlying YouTube player itself remains a single instance.
+
+This keeps the experience consistent while allowing each layout to be designed specifically for its screen size.
+
+---
+
+## 📊 Analytics
+
+The project includes:
+
+* Vercel Analytics
+* Vercel Speed Insights
+
+These are integrated directly into the application and can run without additional configuration when deployed through Vercel.
+
+---
+
+## ⚠️ Important Notes
+
+### YouTube playback
+
+Retro Raag does not host the audio files itself. Playback is handled through YouTube's embedded player.
+
+If a YouTube video is removed, becomes unavailable, or no longer permits embedding, the player handles the playback error and moves to the next track.
+
+### Autoplay
+
+Modern browsers generally prevent websites from autoplaying media with sound.
+
+Retro Raag therefore starts playback muted. Once the visitor interacts with the page, the player attempts to unmute automatically.
+
+### Listener count
+
+The displayed listener count is an atmospheric UI element. It is **not a measurement of real-time listeners**.
+
+---
+
+## 🤝 Contributing
+
+Found something that could be improved?
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Test the project locally.
+5. Open a pull request with a short description of the change.
+
+For larger changes, opening an issue first is recommended so the approach can be discussed before implementation.
+
+---
+
+## 📜 Disclaimer
+
+Retro Raag is a frontend experiment and nostalgia-focused radio interface.
+
+Music playback is provided through embedded YouTube content. The project does not host or redistribute the underlying audio files.
+
+All rights to music, recordings, artwork and other third-party content remain with their respective owners.
+
+If you are a rights holder and believe content should not be available through the project, please contact the project maintainer so the relevant embedded content can be reviewed and removed.
+
+---
+
+## ❤️ Built for the Vibe
+
+Retro Raag isn't trying to be another music streaming platform.
+
+It's meant to feel like finding an old radio at a quiet tapri, turning the knob, and suddenly hearing a song you haven't thought about in years.
+
+**Press play. Stay a while.**
