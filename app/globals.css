@@ -38,12 +38,12 @@
 }
 
 .hero-bg {
-  background-image: url("Retro-Raag/bg/scene-wide.png");
+  background-image: url("public/bg/scene-wide.png");
 }
 
 @media (orientation: portrait) {
   .hero-bg {
-    background-image: url("Retro-Raag/bg/scene-tall.png");
+    background-image: url("public/bg/scene-tall.png");
   }
 }
 
