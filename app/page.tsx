@@ -3,7 +3,7 @@ import ListenerCount from "@/components/ListenerCount";
 import SocialLinks from "@/components/SocialLinks";
 import RadioPlayer from "@/components/RadioPlayer";
 
-const GRAIN_SVG = `<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>`;
+const GRAIN_SVG = `<svg xmlns='https://laraib1902.github.io/Retro-Raag/bg/scene-wide.png'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>`;
 
 export default function Home() {
   return (
